@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-bg-light: #FFFDF0;
+  --color-brand-bg-cream: #FFFEFA;
+  --color-brand-text-primary: #432818;
+  --color-brand-text-secondary: #9A6735;
+  --color-brand-accent-orange: #FFB26B;
+  --color-brand-accent-yellow: #FFD95A;
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light;
+  background-color: var(--color-brand-bg-light);
+  color: var(--color-brand-text-primary);
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--color-brand-bg-light);
+  color: var(--color-brand-text-primary);
+}
+
+#root {
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+/* Ensure global overrides to prevent black and gray */
+*, *::before, *::after {
+  border-color: var(--color-brand-text-secondary);
+}
