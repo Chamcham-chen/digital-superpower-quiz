@@ -9,24 +9,39 @@ const ICON_MAP = {
   dragon: Flame,
 };
 
+// Preload images helper
+const preloadImages = () => {
+  ['hamster', 'owl', 'cheetah', 'dragon'].forEach(name => {
+    const img = new Image();
+    img.src = `${import.meta.env.BASE_URL}images/${name}.png`;
+  });
+};
+
 const ImageWithFallback = ({ src, alt, iconName }) => {
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
   
   if (error) {
     const IconComponent = ICON_MAP[iconName] || Sparkles;
     return (
-      <div className="w-48 h-48 mx-auto rounded-[32px] bg-[#FFD95A] bg-opacity-30 flex items-center justify-center text-[#9A6735] border-4 border-[#FFFDF0] shadow-xl overflow-hidden mb-6">
+      <div className="w-64 h-64 mx-auto rounded-[40px] bg-[#FFD95A] bg-opacity-30 flex items-center justify-center text-[#9A6735] border-4 border-[#FFFDF0] shadow-xl overflow-hidden mb-6">
         <IconComponent size={80} strokeWidth={1.5} />
       </div>
     );
   }
   
   return (
-    <div className="w-48 h-48 mx-auto rounded-[32px] border-4 border-[#FFFDF0] shadow-xl overflow-hidden mb-6 bg-white shrink-0">
+    <div className="w-64 h-64 mx-auto rounded-[40px] border-4 border-[#FFFDF0] shadow-2xl overflow-hidden mb-6 bg-white shrink-0 relative">
+      {loading && (
+        <div className="absolute inset-0 bg-[#FFFDF0] flex items-center justify-center animate-pulse">
+          <Sparkles className="text-[#FFD95A] animate-spin-slow" size={40} />
+        </div>
+      )}
       <img 
         src={src} 
         alt={alt} 
-        className="w-full h-full object-cover"
+        className={`w-full h-full object-cover transition-opacity duration-700 ${loading ? 'opacity-0' : 'opacity-100'}`}
+        onLoad={() => setLoading(false)}
         onError={() => setError(true)} 
       />
     </div>
@@ -43,6 +58,8 @@ export default function QuizApp() {
     setScore(1250);
     setCurrentQuestion(0);
     setStep('quiz');
+    // Start preloading images right after user clicks start to use the quiz time for loading
+    preloadImages();
   };
 
   const handleAnswer = (optionScore) => {
@@ -78,15 +95,33 @@ export default function QuizApp() {
     setStep('welcome');
   };
 
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = `${import.meta.env.BASE_URL}images/${result.image}.png`;
+    link.download = `digital-superpower-${result.image}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleCopy = () => {
+    const text = `我的數位超能力是：【${result.tierName} ${result.creature}】！\n\n${result.analysis}\n\n${result.suggestion}\n\n超能力分數：${score}\n#數位超能力測驗`;
+    navigator.clipboard.writeText(text).then(() => {
+      alert('結果文字已複製到剪貼簿！');
+    }).catch(() => {
+      alert('複製失敗，請手動複製結果文字。');
+    });
+  };
+
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
         title: '我的數位超能力測驗結果',
-        text: `我是【${result?.tierName} ${result?.creature}】！來測測你在數位時代的超能力吧！`,
+        text: `我的數位超能力是：【${result.tierName} ${result.creature}】！\n來測測你在數位時代的超能力吧！`,
         url: window.location.href,
       }).catch(console.error);
     } else {
-      alert('「分享」功能在此裝置不支援，請直接複製網址分享！');
+      handleCopy();
     }
   };
 
@@ -246,19 +281,13 @@ export default function QuizApp() {
               <div className="w-full space-y-4 mb-8">
                 <div className="grid grid-cols-2 gap-4">
                   <button 
-                    onClick={() => {
-                      alert('請直接截圖或長按圖片進行儲存，以獲得最高品質的結果圖！');
-                    }}
+                    onClick={handleDownload}
                     className="py-4 bg-white border-2 border-[#FFD95A] text-[#9A6735] font-bold rounded-2xl hover:bg-[#FFFDF0] transition-colors flex items-center justify-center gap-2 shadow-sm"
                   >
                     儲存結果圖片
                   </button>
                   <button 
-                    onClick={() => {
-                      const text = `我的數位超能力是：【${result.tierName} ${result.creature}】！\n\n${result.quote}\n\n超能力分數：${score}\n#數位超能力測驗`;
-                      navigator.clipboard.writeText(text);
-                      alert('結果文字已複製到剪貼簿！');
-                    }}
+                    onClick={handleCopy}
                     className="py-4 bg-white border-2 border-[#FFB26B] text-[#9A6735] font-bold rounded-2xl hover:bg-[#FFFDF0] transition-colors flex items-center justify-center gap-2 shadow-sm"
                   >
                     複製結果文字
