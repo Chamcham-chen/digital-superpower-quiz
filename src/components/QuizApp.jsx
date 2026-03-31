@@ -106,20 +106,20 @@ export default function QuizApp() {
               </div>
               
               <div className="space-y-4">
-                <h1 className="text-4xl sm:text-5xl font-black text-[#432818] leading-tight tracking-tight px-2 mb-2">
+                <h1 className="text-4xl sm:text-5xl font-black text-[#432818] leading-tight tracking-tight px-2 mb-4">
                   數位超能力測驗
                 </h1>
-                <div className="space-y-1">
-                  <p className="text-sm sm:text-base text-[#9A6735] font-medium opacity-80">
+                <div className="space-y-5">
+                  <p className="text-xl text-[#9A6735] font-bold opacity-90 leading-relaxed">
                     整理報表做到兩眼發直?
                   </p>
-                  <p className="text-sm sm:text-base text-[#9A6735] font-medium opacity-80 pb-2">
+                  <p className="text-xl text-[#9A6735] font-bold opacity-90 leading-relaxed">
                     還是叫AI神隊友來幫忙?
                   </p>
+                  <p className="text-xl text-[#9A6735] font-bold mx-auto leading-relaxed opacity-90">
+                    測出數位 AI 時代的超能力
+                  </p>
                 </div>
-                <p className="text-xl text-[#9A6735] font-bold mx-auto leading-relaxed border-t-2 border-[#FFD95A] pt-4 inline-block">
-                  測出數位 AI 時代的超能力
-                </p>
               </div>
 
               <button 
@@ -207,7 +207,7 @@ export default function QuizApp() {
             <div className="flex flex-col items-center text-center animate-in zoom-in-95 fade-in duration-500">
               <div className="mb-6">
                 <ImageWithFallback 
-                  src={`./images/${result.image}.png`}
+                  src={`/images/${result.image}.png`}
                   alt={result.creature}
                   iconName={result.image} 
                 />
