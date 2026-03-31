@@ -281,21 +281,6 @@ export default function QuizApp() {
               <div className="w-full space-y-4 mb-8">
                 <div className="grid grid-cols-2 gap-4">
                   <button 
-                    onClick={handleDownload}
-                    className="py-4 bg-white border-2 border-[#FFD95A] text-[#9A6735] font-bold rounded-2xl hover:bg-[#FFFDF0] transition-colors flex items-center justify-center gap-2 shadow-sm"
-                  >
-                    儲存結果圖片
-                  </button>
-                  <button 
-                    onClick={handleCopy}
-                    className="py-4 bg-white border-2 border-[#FFB26B] text-[#9A6735] font-bold rounded-2xl hover:bg-[#FFFDF0] transition-colors flex items-center justify-center gap-2 shadow-sm"
-                  >
-                    複製結果文字
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <button 
                     onClick={handleRestart}
                     className="py-4 bg-[#FFFDF0] text-[#9A6735] font-bold rounded-2xl hover:bg-[#FFFEFA] border border-transparent hover:border-[#FFD95A] transition-all flex items-center justify-center gap-2"
                   >
