@@ -242,7 +242,7 @@ export default function QuizApp() {
             <div className="flex flex-col items-center text-center animate-in zoom-in-95 fade-in duration-500">
               <div className="mb-6">
                 <ImageWithFallback 
-                  src={`images/${result.image}.png`}
+                  src={`${import.meta.env.BASE_URL}images/${result.image}.png`}
                   alt={result.creature}
                   iconName={result.image} 
                 />
